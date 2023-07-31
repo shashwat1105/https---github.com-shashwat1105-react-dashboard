@@ -7,6 +7,11 @@ import morgan from 'morgan';
 import  helmet from 'helmet';
 
 
+import clientRoutes from "./routes/client.js";
+import generalRoutes from "./routes/general.js";
+import managmentRoutes from "./routes/managment.js";
+import salesRoutes from "./routes/sales.js";
+
 // Configurations
 
 dotenv.config()
@@ -25,4 +30,18 @@ app.use(cors());
 app.use("/client",clientRoutes);
 app.use("/general",generalRoutes);
 app.use("/managment",managmentRoutes);
-app.use("/slaes",salesRoutes);
+app.use("/sales",salesRoutes);
+
+// mongoose setup
+
+const port=process.env.PORT ||9000;
+mongoose.connect(process.env.MONGO_URL,{
+    useNewUrlParser:true,
+    useUnifiedTopology:true,
+}).then(()=>{
+    app.listen(port,()=>{
+        console.log(`Server Port: ${port}`)
+    })
+}).catch((err)=>{
+    console.log(`${err} didnt connect`)
+});
